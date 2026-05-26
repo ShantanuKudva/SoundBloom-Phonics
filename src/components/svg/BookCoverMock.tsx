@@ -1,4 +1,5 @@
 import type { Book } from "../../lib/books";
+import { asset } from "../../lib/assetPath";
 
 type Props = {
   size: number; // rendered width in pixels; height is size * 1.1 (portrait book aspect)
@@ -76,7 +77,7 @@ export default function BookCoverMock({ size, book }: Props) {
           falls back to the inline mascot for books without their own hero asset. */}
       {book.coverHeroSrc ? (
         <image
-          href={book.coverHeroSrc}
+          href={asset(book.coverHeroSrc)}
           x="46"
           y="22"
           width="108"

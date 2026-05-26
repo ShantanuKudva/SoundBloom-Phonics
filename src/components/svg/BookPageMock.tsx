@@ -1,4 +1,5 @@
 import { phonicsGroups } from "../../lib/designTokens";
+import { asset } from "../../lib/assetPath";
 
 type IllustrationName = "sun" | "apple" | "ball" | "cat" | "dog" | "egg" | "fish" | "moon";
 
@@ -235,10 +236,14 @@ export default function BookPageMock({
   showSayIt = true,
   showFooter = true,
 }: Props) {
-  const bgFill = background === "butter" ? "#F4E6C8" : "#FDF6EC";
   // Derive defaults for new props
   const resolvedGroup = group ?? groupOf(letter);
   const resolvedSound = sound ?? letter.toLowerCase();
+  // Page background: group-tinted when we know the group, else fall back to the
+  // generic paper/butter palette. The group bg hex values are already in the
+  // 20–30% opacity range per docs/design.md §2.3 — used at full saturation here.
+  const groupBg = phonicsGroups[resolvedGroup - 1]?.bg;
+  const bgFill = groupBg ?? (background === "butter" ? "#F4E6C8" : "#FAF8F0");
 
   return (
     <svg
@@ -305,7 +310,7 @@ export default function BookPageMock({
           If illustrationSrc is set, render the PNG instead of the named inline SVG. */}
       {illustrationSrc ? (
         <image
-          href={illustrationSrc}
+          href={asset(illustrationSrc)}
           x={108}
           y={24}
           width={76}
