@@ -80,22 +80,84 @@ export default function Specs() {
           ))}
         </div>
 
-        {/* Footer note */}
-        <motion.p
-          className="mt-14 text-center text-sm"
-          style={{
-            fontFamily: "var(--font-sans)",
-            fontStyle: "italic",
-            color: "var(--color-ink)",
-            opacity: 0.5,
-          }}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.7, delay: 0.3, ease }}
+        {/* Where to find it */}
+        <motion.div
+          className="mt-20"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.75, delay: 0.2, ease }}
         >
-          Available on Amazon worldwide. Print-on-demand. Always in stock.
-        </motion.p>
+          <p
+            className="text-center text-xs font-semibold uppercase tracking-widest mb-6"
+            style={{ color: "var(--color-moss)", fontFamily: "var(--font-sans)" }}
+          >
+            where to find it
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="https://www.amazon.com/s?k=SoundBloom+Phonics"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm transition-opacity duration-200 hover:opacity-80"
+              style={{
+                backgroundColor: "var(--color-ink)",
+                color: "var(--color-paper)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 500,
+                letterSpacing: "0.02em",
+              }}
+            >
+              <span>Amazon — via KDP</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M4 10 L10 4 M10 4 L5.5 4 M10 4 L10 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+
+            <a
+              href="https://www.flipkart.com/search?q=SoundBloom+Phonics"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm transition-colors duration-200 hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+              style={{
+                border: "1.5px solid var(--color-ink)",
+                color: "var(--color-ink)",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 500,
+                letterSpacing: "0.02em",
+                backgroundColor: "transparent",
+              }}
+            >
+              <span>Flipkart — India</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M4 10 L10 4 M10 4 L5.5 4 M10 4 L10 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </div>
+
+          <p
+            className="mt-6 text-center text-sm"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontStyle: "italic",
+              color: "var(--color-ink)",
+              opacity: 0.55,
+            }}
+          >
+            Coming to both stores in 2026. Print-on-demand via Amazon KDP — always in stock, worldwide. Flipkart through India distribution.
+          </p>
+          <p
+            className="mt-2 text-center"
+            style={{
+              fontFamily: "var(--font-hand)",
+              color: "var(--color-ochre)",
+              fontSize: "14px",
+            }}
+          >
+            links go live the day Book 1 launches
+          </p>
+        </motion.div>
       </div>
     </section>
   );
