@@ -74,6 +74,25 @@ export default function SiteFooter() {
           </p>
         </div>
       </div>
+
+      {/* Disclaimer row */}
+      <div
+        className="max-w-6xl mx-auto pt-4 mt-4 text-center"
+        style={{ borderTop: "1px solid rgba(42,36,25,0.1)" }}
+      >
+        <p
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontStyle: "italic",
+            color: "var(--color-ink)",
+            opacity: 0.5,
+            fontSize: "11px",
+            lineHeight: 1.6,
+          }}
+        >
+          SoundBloom is a book, not a medical product. It is not a substitute for therapy, professional advice, or formal assessment. Nothing on this site is a clinical claim.
+        </p>
+      </div>
     </footer>
   );
 }

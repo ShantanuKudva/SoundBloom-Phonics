@@ -1,6 +1,6 @@
 # SoundBloom Phonics
 
-An autism-friendly phonics colouring book series for neurodivergent children aged 3–7, with QR-linked sound playback through a tiny in-house web app.
+A phonics colouring book series for children aged 3–7 — designed for calm, readability, and the kids who find most books too loud. QR-linked sound playback through a tiny in-house web app.
 
 This repo contains the **concept marketing site** (a Next.js mockup of how the product will be presented) and the **technical reference document** for the books themselves. The books are not yet published — Book 1 is targeted at 2026.
 
@@ -8,15 +8,13 @@ This repo contains the **concept marketing site** (a Next.js mockup of how the p
 
 ## What is SoundBloom?
 
-Most phonics colouring books are loud — bright colours, busy pages, dense type. For autistic children, that's a sensory storm, not learning.
+Most phonics colouring books are loud — bright colours, busy pages, dense type. Some kids breeze through that. Others shut down before they've started.
 
 SoundBloom starts from the child:
 
 - **Sensory-calibrated print design.** Cream paper instead of glaring white. Thick outlines to colour inside. One letter, one picture, generous whitespace. The same layout on every page so it's predictable.
 - **Sound built into every page.** Each page carries a small QR code. Scanning it opens the **SoundBloom Sounds** web app to that exact letter — a warm voice says the sound, three times, slowly. No install, no account, no data sent anywhere.
 - **A series, not a one-off.** Four books that carry each other: Letter Sounds → First Words (CVC) → Sound Pairs (digraphs & blends) → Sight Words.
-
-The design is grounded in published guidance for autism-friendly educational materials. The series is designed by a Psychology graduate specialising in neurodivergent learning.
 
 ---
 
@@ -81,12 +79,12 @@ The site is a single page that walks through the full end-to-end story:
 5. **Page anatomy** — every design choice on a page, annotated.
 6. **Inside Book 1** — eight sample pages from A to S, showing template consistency.
 7. **A Saturday morning with Leo** — a fourteen-second animated scene of a real one-minute use.
-8. **Personas** — how parents, SEN teachers, and SLTs imagine using it.
+8. **Personas** — how parents and teachers imagine using it.
 9. **A typical week** — five mornings, five letters.
 10. **The curriculum** — full per-book breakdown of all four books.
 11. **The ecosystem** — the app, future-proof QR codes, the progress chart.
 12. **Inside SoundBloom Sounds** — what the app does, what it never does, why nothing is gatekept.
-13. **Author** — the psychology-graduate moat.
+13. **Author** — the design intent and the publisher's posture.
 14. **Specs** — the book by the numbers.
 15. **FAQ** — six questions parents ask, answered honestly.
 16. **CTA + footer** — sign up to be notified when Book 1 launches.
@@ -95,7 +93,7 @@ The site is a single page that walks through the full end-to-end story:
 
 ## Aesthetic & technical notes
 
-The site is intentionally **calm, editorial, picture-book** — the visual experience of opening one of the books, not a SaaS landing page. Bouncy springy SaaS animations would betray the autism-friendly promise the product makes.
+The site is intentionally **calm, editorial, picture-book** — the visual experience of opening one of the books, not a SaaS landing page. Bouncy springy SaaS animations would betray the promise the product makes.
 
 - **Typography:** Fraunces (display, italic), Atkinson Hyperlegible (body — designed for low vision, on-brand for an accessibility-first product), Caveat (handwriting accents, sparingly).
 - **Palette:** warm cream paper `#FDF6EC`, soft butter `#F4E6C8`, cocoa-warm ink `#2A2419`. Accents in dusty rose, forest green, ochre, soft denim.
@@ -121,8 +119,8 @@ The site is intentionally **calm, editorial, picture-book** — the visual exper
 
 ---
 
-## Credit
+## A note on framing
 
-Concept and design: Shantanu Kudva (Psychology graduate, specialising in neurodivergent learning).
+SoundBloom is a small independent project. No organisation behind it yet, no clinical credentials being claimed, no medical claims of any kind. It's a book and a tiny app, designed with care for how kids actually read.
 
 The marketing site was scaffolded with Claude Code, with Opus handling design/planning/audit and Sonnet handling implementation.

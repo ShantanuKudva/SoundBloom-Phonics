@@ -57,21 +57,21 @@ function Portrait3() {
 const personas = [
   {
     Portrait: Portrait1,
-    name: "Priya",
-    role: "Parent of a 5-year-old",
-    quote: "I'd given up on phonics books. My son would shut down within a minute. SoundBloom is the first one he asks for.",
+    name: "Maya",
+    role: "Parent of a 4-year-old",
+    quote: "I bought it because the pages looked calm. He sat with it longer than any book we've tried — and started recognising letters within a week. I didn't even know it had a 'sensory-friendly' angle until I read the blurb.",
   },
   {
     Portrait: Portrait2,
     name: "Mr. Davies",
-    role: "Year 1 SEN teacher",
-    quote: "I keep a stack in the calm corner. The QR videos mean a child can self-direct without me hovering.",
+    role: "Year 1 teacher",
+    quote: "I use it with the whole class. The QR videos let kids work at their own pace. The two children in my class with extra support needs use it the same way as everyone else — that's the part I didn't expect.",
   },
   {
     Portrait: Portrait3,
-    name: "Anna",
-    role: "Speech and language therapist",
-    quote: "I send the QR links to parents between sessions. It bridges the home practice gap better than any worksheet.",
+    name: "Priya",
+    role: "Parent of a 5-year-old who finds most books overwhelming",
+    quote: "We'd given up on phonics books. My son would shut down within a minute. SoundBloom is the first one he asks for. The cream pages and the slow voice in the videos — they make the difference.",
   },
 ];
 

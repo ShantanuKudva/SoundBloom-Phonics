@@ -42,7 +42,7 @@ export default function StoryPullQuote() {
                 fontVariationSettings: "'opsz' 48, 'SOFT' 80",
               }}
             >
-              Most phonics books are loud. Bright colours, busy pages, dense type. For autistic children, that&rsquo;s not learning — that&rsquo;s a sensory storm.
+              Most phonics books are loud. Bright colours, busy pages, dense type. Some kids breeze through that. Others — and there are many — shut down before they&rsquo;ve started.
             </p>
           </blockquote>
         </motion.div>
@@ -55,9 +55,9 @@ export default function StoryPullQuote() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.85, delay: 0.15, ease }}
         >
-          SoundBloom is what a phonics book looks like when it starts with the child. Cream pages instead of glaring white. One letter, one picture, lots of space. And because the hardest part of reading is{" "}
+          SoundBloom is what a phonics book looks like when calm comes first. Cream pages instead of glaring white. One letter, one picture, lots of space. Every page has a small QR code that plays the sound out loud — so the hardest part of reading,{" "}
           <em style={{ color: "var(--color-moss)" }}>blending</em>{" "}
-          the sounds, every page has a quiet QR code that plays a 30-second video of the sound made out loud — so a parent who has never taught phonics can still help.
+          the sounds, doesn&rsquo;t depend on a parent already knowing phonics. It works for any child. It works especially well for the ones who find regular books too much.
         </motion.p>
       </div>
     </section>

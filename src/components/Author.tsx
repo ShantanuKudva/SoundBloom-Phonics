@@ -27,7 +27,7 @@ export default function Author() {
               fontVariationSettings: "'opsz' 24, 'SOFT' 60",
             }}
           >
-            Designed by a Psychology graduate specialising in neurodivergent learning.
+            A small independent project. No clinic, no claims, no expertise to sell.
           </p>
         </motion.div>
 
@@ -39,7 +39,7 @@ export default function Author() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.85, delay: 0.15, ease }}
         >
-          Every design choice in this book has a reason. The cream paper, the line weight, the empty space — none of it is decorative. It comes from watching what works and what doesn&rsquo;t for children whose brains process the world a little differently.
+          Every design choice in this book has a reason — the cream paper, the line weight, the empty space, the colour key. None of it is decorative. We made the book we&rsquo;d want for the kids in our own lives, and shared it because other people might want it too. We&rsquo;re not therapists. We&rsquo;re not making medical claims. We&rsquo;re just trying to make a good, calm, useful book.
         </motion.p>
 
         {/* Thin decorative rule */}

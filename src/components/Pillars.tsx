@@ -53,7 +53,7 @@ const pillars = [
     Icon: IconPaperLeaf,
     label: "Sensory-calibrated design",
     title: "Sensory-calibrated design",
-    body: "Cream paper instead of glaring white. Thick outlines you can colour inside. One thing on every page. The same layout from page 1 to page 58 — because predictability is what makes a book feel safe.",
+    body: "Cream paper instead of glaring white. Thick outlines you can colour inside. One thing on every page. The same layout from page 1 to page 58 — calm and predictable, which makes the book easier for every child and especially for kids who find busy pages hard.",
   },
   {
     Icon: IconSoundBubble,

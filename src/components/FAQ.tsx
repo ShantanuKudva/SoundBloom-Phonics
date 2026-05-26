@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: "Is this evidence-based?",
-    a: "The print design follows published guidelines for autism-friendly educational materials — typography, layout density, colour palette, line weight. The QR-audio approach is novel; we're testing it openly rather than claiming it's proven.",
+    a: "The design follows widely-accepted principles of accessible print — readable typography, low visual density, generous whitespace, restrained colour. It's not a clinical intervention and we're not making medical claims. It's just careful design.",
   },
   {
     q: "Will the QR codes still work in five years?",
@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "Who designed this?",
-    a: "A Psychology graduate specialising in neurodivergent learning. Every choice — the cream paper, the line weight, the empty space, the colour key — is intentional. None of it is decoration.",
+    a: "A small independent project — no organisation behind it yet, no clinical credentials being claimed. We made the book we'd want for the kids in our own lives. If it helps yours, that's the whole point.",
   },
 ];
 

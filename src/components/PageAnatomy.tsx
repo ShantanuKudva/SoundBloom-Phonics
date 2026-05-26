@@ -47,107 +47,118 @@ export default function PageAnatomy() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.85, ease }}
         >
-          {/* Desktop annotation layout */}
-          <div className="hidden md:block relative" style={{ width: 500 }}>
-            {/* Annotation lines SVG overlay — coordinates mapped to 500×500 container with 200×200 viewBox scaled to 500px */}
-            <svg
-              viewBox="0 0 700 500"
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              preserveAspectRatio="xMidYMid meet"
-              style={{ zIndex: 2 }}
-            >
-              {/* Line to bg label (top-left) */}
-              <line x1="97" y1="40" x2="8" y2="40" stroke="#5C7C5E" strokeWidth="1" />
-              {/* Line to letter (top-right) */}
-              <line x1="403" y1="125" x2="500" y2="55" stroke="#5C7C5E" strokeWidth="1" />
-              {/* Line to sun outline (mid-right) */}
-              <line x1="403" y1="275" x2="500" y2="235" stroke="#5C7C5E" strokeWidth="1" />
-              {/* Line to colour dots (bottom-left) */}
-              <line x1="97" y1="450" x2="8" y2="425" stroke="#5C7C5E" strokeWidth="1" />
-              {/* Line to whole page centre */}
-              <line x1="97" y1="250" x2="8" y2="260" stroke="#5C7C5E" strokeWidth="1" />
-              {/* Line to QR (bottom-right) */}
-              <line x1="403" y1="420" x2="500" y2="455" stroke="#5C7C5E" strokeWidth="1" />
-            </svg>
-
-            {/* Book page — 500×500 */}
-            <div style={{ position: "relative", zIndex: 1 }}>
+          {/* Desktop annotation layout — wider container so labels sit in gutters, lines touch book edge only */}
+          <div className="hidden md:block relative" style={{ width: 940, height: 500 }}>
+            {/* Book page — centred horizontally in the 940-wide container, x:220–720 */}
+            <div style={{ position: "absolute", left: 220, top: 0, width: 500, height: 500, zIndex: 1 }}>
               <BookPageMock size={500} letter="S" word="Sun" illustration="sun" />
             </div>
 
-            {/* Annotation labels — absolutely positioned */}
-            {/* Label 1 — background (top-left) */}
+            {/* Annotation lines SVG overlay — 940×500, coords 1:1 with container */}
+            <svg
+              viewBox="0 0 940 500"
+              width="940"
+              height="500"
+              preserveAspectRatio="none"
+              className="absolute inset-0 pointer-events-none"
+              style={{ zIndex: 2 }}
+            >
+              {/* All lines: stop at the book's outer edge (x=220 left edge, x=720 right edge),
+                  never crossing into the book interior */}
+
+              {/* L1 background — top-left corner */}
+              <line x1="200" y1="38"  x2="220" y2="38"  stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="220" cy="38"  r="2.5" fill="#5C7C5E" />
+
+              {/* L2 letter — left edge at letter's vertical position (~y=125) */}
+              <line x1="200" y1="130" x2="220" y2="130" stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="220" cy="130" r="2.5" fill="#5C7C5E" />
+
+              {/* L4 colour dots — bottom-left edge near dots (~y=450) */}
+              <line x1="200" y1="450" x2="220" y2="450" stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="220" cy="450" r="2.5" fill="#5C7C5E" />
+
+              {/* L5 whole page (one object) — right edge top corner area */}
+              <line x1="720" y1="60"  x2="740" y2="60"  stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="720" cy="60"  r="2.5" fill="#5C7C5E" />
+
+              {/* L3 sun outlines — right edge at sun centre (~y=275) */}
+              <line x1="720" y1="275" x2="740" y2="275" stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="720" cy="275" r="2.5" fill="#5C7C5E" />
+
+              {/* L6 QR / layout — bottom-right edge near QR (~y=440) */}
+              <line x1="720" y1="440" x2="740" y2="440" stroke="#5C7C5E" strokeWidth="1" />
+              <circle cx="720" cy="440" r="2.5" fill="#5C7C5E" />
+            </svg>
+
+            {/* Labels — left gutter (x:0–200) */}
             <div
-              className="absolute text-xs px-2 py-1 bg-white border border-current rounded"
+              className="absolute text-xs px-3 py-2 bg-white rounded"
               style={{
-                top: "4%", left: "-220px", width: "200px",
+                top: 22, left: 0, width: 190,
                 fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
                 zIndex: 3,
               }}
             >
               Cream background reduces glare and visual fatigue.
             </div>
 
-            {/* Label 2 — letter (top-right) */}
             <div
-              className="absolute text-xs px-2 py-1 bg-white border rounded"
+              className="absolute text-xs px-3 py-2 bg-white rounded"
               style={{
-                top: "8%", right: "-220px", width: "200px",
+                top: 114, left: 0, width: 190,
                 fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
                 zIndex: 3,
               }}
             >
               OpenDyslexic, 24pt minimum. Never serif fonts for the letter itself.
             </div>
 
-            {/* Label 3 — sun outline (mid-right) */}
             <div
-              className="absolute text-xs px-2 py-1 bg-white border rounded"
+              className="absolute text-xs px-3 py-2 bg-white rounded"
               style={{
-                top: "44%", right: "-220px", width: "200px",
+                top: 434, left: 0, width: 190,
                 fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
-                zIndex: 3,
-              }}
-            >
-              Thick 4pt outlines — easier to colour inside with limited fine motor control.
-            </div>
-
-            {/* Label 4 — colour dots (bottom-left) */}
-            <div
-              className="absolute text-xs px-2 py-1 bg-white border rounded"
-              style={{
-                bottom: "12%", left: "-220px", width: "200px",
-                fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
                 zIndex: 3,
               }}
             >
               Three colours, listed up front. No decision fatigue.
             </div>
 
-            {/* Label 5 — whole page (mid-left) */}
+            {/* Labels — right gutter (x:740–940) */}
             <div
-              className="absolute text-xs px-2 py-1 bg-white border rounded"
+              className="absolute text-xs px-3 py-2 bg-white rounded"
               style={{
-                top: "46%", left: "-220px", width: "200px",
+                top: 44, right: 0, width: 190,
                 fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
                 zIndex: 3,
               }}
             >
               One object per page. No busy scenes.
             </div>
 
-            {/* Label 6 — QR (bottom-right) */}
             <div
-              className="absolute text-xs px-2 py-1 bg-white border rounded"
+              className="absolute text-xs px-3 py-2 bg-white rounded"
               style={{
-                bottom: "6%", right: "-220px", width: "200px",
+                top: 259, right: 0, width: 190,
                 fontFamily: "var(--font-sans)", color: "var(--color-ink)",
-                borderColor: "rgba(42,36,25,0.2)", lineHeight: 1.4,
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
+                zIndex: 3,
+              }}
+            >
+              Thick 4pt outlines — easier to colour inside with limited fine motor control.
+            </div>
+
+            <div
+              className="absolute text-xs px-3 py-2 bg-white rounded"
+              style={{
+                top: 424, right: 0, width: 190,
+                fontFamily: "var(--font-sans)", color: "var(--color-ink)",
+                border: "1px solid rgba(42,36,25,0.18)", lineHeight: 1.45,
                 zIndex: 3,
               }}
             >

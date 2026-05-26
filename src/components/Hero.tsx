@@ -122,7 +122,7 @@ export default function Hero() {
             className="text-xl md:text-2xl leading-relaxed max-w-lg"
             style={{ fontFamily: "var(--font-sans)", color: "var(--color-ink)", opacity: 0.8 }}
           >
-            Colouring books for neurodivergent children, with sound built into every page.
+            Phonics colouring books for every child — with sound built into every page, and the calm that helps kids who find busy books hard.
           </p>
         </motion.div>
 
