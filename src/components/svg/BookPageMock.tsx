@@ -1,15 +1,30 @@
+import { phonicsGroups } from "../../lib/designTokens";
+
 type IllustrationName = "sun" | "apple" | "ball" | "cat" | "dog" | "egg" | "fish" | "moon";
 
 type Props = {
   size: number;
   letter: string;
   word: string;
-  illustration: IllustrationName;
+  illustration?: IllustrationName;
+  illustrationSrc?: string;     // optional PNG path; if set, overrides inline illustration
   showColourKey?: boolean;
   showQR?: boolean;
   showLabel?: boolean;
-  showRuledLines?: boolean;
   background?: "paper" | "butter";
+  // New props
+  group?: number;
+  sound?: string;
+  pageType?: string;
+  showHeader?: boolean;
+  showSayIt?: boolean;
+  showFooter?: boolean;
+};
+
+const groupOf = (letter: string): number => {
+  const upper = letter.toUpperCase();
+  const idx = phonicsGroups.findIndex(g => (g.letters as readonly string[]).includes(upper));
+  return idx >= 0 ? idx + 1 : 1;
 };
 
 const QR_PATTERN: number[][] = [
@@ -208,17 +223,22 @@ export default function BookPageMock({
   letter,
   word,
   illustration,
+  illustrationSrc,
   showColourKey = true,
   showQR = true,
   showLabel = true,
-  showRuledLines = true,
   background = "paper",
+  group,
+  sound,
+  pageType = "Colouring",
+  showHeader = true,
+  showSayIt = true,
+  showFooter = true,
 }: Props) {
   const bgFill = background === "butter" ? "#F4E6C8" : "#FDF6EC";
-  const ruledYs = [62, 74, 86, 98, 110, 122];
-  const qrSize = 30;
-  const qrX = 156;
-  const qrY = 164;
+  // Derive defaults for new props
+  const resolvedGroup = group ?? groupOf(letter);
+  const resolvedSound = sound ?? letter.toLowerCase();
 
   return (
     <svg
@@ -228,43 +248,161 @@ export default function BookPageMock({
       xmlns="http://www.w3.org/2000/svg"
       style={{ maxWidth: "100%", height: "auto", display: "block" }}
     >
-      <rect x="0" y="0" width="200" height="200" rx="3" fill={bgFill} stroke="#2A2419" strokeWidth="2" />
-      {showRuledLines && ruledYs.map((y, i) => (
-        <line key={i} x1="10" y1={y} x2="190" y2={y} stroke="#2A2419" strokeWidth="0.6" opacity="0.06" />
-      ))}
+      {/* Page background */}
+      <rect x="0" y="0" width="200" height="200" rx="3" fill={bgFill} stroke="#2A2419" strokeWidth="3" />
+
+      {/* Header bar */}
+      {showHeader && (
+        <>
+          <rect x="0" y="0" width="200" height="14" fill="rgba(42,36,25,0.08)" />
+          <text
+            x="100"
+            y="9.5"
+            textAnchor="middle"
+            fontFamily="var(--font-sans), sans-serif"
+            fontSize="6"
+            fill="#2A2419"
+            opacity="0.6"
+          >
+            SoundBloom · Group {resolvedGroup}
+          </text>
+        </>
+      )}
+
+      {/* Letter box — top-left per §2.2 */}
+      <rect x="14" y="22" width="80" height="80" rx="2" fill="none" stroke="#2A2419" strokeWidth="2.5" />
+
+      {/* Big display letter inside box — sans-serif per §2.4 */}
       <text
-        x="14"
-        y="50"
-        fontFamily="Georgia, serif"
-        fontSize="40"
+        x="54"
+        y="76"
+        textAnchor="middle"
+        fontFamily="var(--font-sans), sans-serif"
+        fontSize="44"
         fontWeight="700"
         fill="#2A2419"
       >
         {letter}
       </text>
-      <Illustration name={illustration} cx={100} cy={110} />
+
+      {/* IPA notation below letter inside box */}
+      <text
+        x="54"
+        y="94"
+        textAnchor="middle"
+        fontFamily="var(--font-sans), sans-serif"
+        fontSize="5.5"
+        fill="#2A2419"
+        opacity="0.55"
+      >
+        /{resolvedSound}/
+      </text>
+
+      {/* Illustration box — top-right, same size as letter box per §2.2 */}
+      <rect x="106" y="22" width="80" height="80" rx="2" fill="none" stroke="#2A2419" strokeWidth="2.5" />
+
+      {/* Centred + scaled so illustration fits box (146,62) with margin.
+          If illustrationSrc is set, render the PNG instead of the named inline SVG. */}
+      {illustrationSrc ? (
+        <image
+          href={illustrationSrc}
+          x={108}
+          y={24}
+          width={76}
+          height={76}
+          preserveAspectRatio="xMidYMid meet"
+          style={{ mixBlendMode: "multiply" }}
+        />
+      ) : illustration ? (
+        <g transform="translate(146, 62) scale(0.85)">
+          <Illustration name={illustration} cx={0} cy={0} />
+        </g>
+      ) : null}
+
+      {/* Object name below illustration inside box */}
       {showLabel && (
         <text
-          x="100"
-          y="152"
+          x="146"
+          y="97"
           textAnchor="middle"
-          fontFamily="sans-serif"
-          fontSize="9"
+          fontFamily="var(--font-sans), sans-serif"
+          fontSize="6.5"
           fill="#2A2419"
-          opacity="0.8"
+          opacity="0.7"
         >
-          {letter} is for {word}
+          {word}
         </text>
       )}
-      {showColourKey && (
+
+      {/* SAY IT instruction strip — directly below both boxes per §2.2 */}
+      {showSayIt && (
         <>
-          <circle cx="14" cy="180" r="4" fill="#D4827A" stroke="#2A2419" strokeWidth="1.2" />
-          <circle cx="28" cy="180" r="4" fill="#C89B5D" stroke="#2A2419" strokeWidth="1.2" />
-          <circle cx="42" cy="180" r="4" fill="#5C7C5E" stroke="#2A2419" strokeWidth="1.2" />
+          <rect
+            x="14"
+            y="112"
+            width="172"
+            height="22"
+            rx="3"
+            fill="none"
+            stroke="#2A2419"
+            strokeWidth="1"
+            opacity="0.4"
+          />
+          <text
+            x="100"
+            y="121"
+            textAnchor="middle"
+            fontFamily="var(--font-sans), sans-serif"
+            fontSize="6.5"
+            fill="#2A2419"
+            opacity="0.7"
+          >
+            SAY IT: /{resolvedSound}/ · /{resolvedSound}/ · /{resolvedSound}/
+          </text>
+          <text
+            x="100"
+            y="129"
+            textAnchor="middle"
+            fontFamily="var(--font-sans), sans-serif"
+            fontSize="4.5"
+            fill="#2A2419"
+            opacity="0.5"
+          >
+            Point to the picture each time
+          </text>
         </>
       )}
+
+      {/* Colour palette dots */}
+      {showColourKey && (
+        <>
+          <circle cx="20" cy="158" r="5" fill="#D4827A" stroke="#2A2419" strokeWidth="1.2" />
+          <circle cx="36" cy="158" r="5" fill="#C89B5D" stroke="#2A2419" strokeWidth="1.2" />
+          <circle cx="52" cy="158" r="5" fill="#5C7C5E" stroke="#2A2419" strokeWidth="1.2" />
+        </>
+      )}
+
+      {/* QR code — bottom-right corner per §2.2 */}
       {showQR && (
-        <InlineQR x={qrX} y={qrY} qrSize={qrSize} />
+        <InlineQR x={150} y={142} qrSize={36} />
+      )}
+
+      {/* Footer bar */}
+      {showFooter && (
+        <>
+          <rect x="0" y="186" width="200" height="14" fill="rgba(42,36,25,0.08)" />
+          <text
+            x="100"
+            y="195"
+            textAnchor="middle"
+            fontFamily="var(--font-sans), sans-serif"
+            fontSize="5"
+            fill="#2A2419"
+            opacity="0.55"
+          >
+            Group {resolvedGroup} · /{resolvedSound}/ · {pageType}
+          </text>
+        </>
       )}
     </svg>
   );

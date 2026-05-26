@@ -1,79 +1,31 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
+import { motion } from "motion/react";
 import { useState, useRef } from "react";
 import BookPageMock from "./svg/BookPageMock";
+import PhoneFrame, { phoneScreenBounds } from "./svg/PhoneFrame";
+import AppSoundScreen from "./svg/AppSoundScreen";
 
-function PhoneMockup({ scanned }: { scanned: boolean }) {
+function PhoneMockup({ scanned: _scanned }: { scanned: boolean }) {
   return (
     <svg
-      viewBox="0 0 260 520"
+      viewBox="0 0 260 536"
       xmlns="http://www.w3.org/2000/svg"
       className="w-full max-w-[260px]"
       aria-label="Phone showing the SoundBloom Sounds app for the letter S"
     >
-      {/* Phone body */}
-      <rect x="2" y="2" width="256" height="516" rx="36" fill="#2A2419" stroke="#2A2419" strokeWidth="2" />
-      <rect x="8" y="8" width="244" height="504" rx="30" fill="#1a1612" />
-      <rect x="12" y="12" width="236" height="496" rx="26" fill="#FDF6EC" />
-
-      {/* Notch */}
-      <rect x="90" y="18" width="80" height="18" rx="9" fill="#2A2419" />
-
-      {/* Status bar */}
-      <text x="24" y="52" fontFamily="sans-serif" fontSize="11" fill="#2A2419" opacity="0.5">9:41</text>
-      <circle cx="210" cy="48" r="3" fill="#2A2419" opacity="0.4" />
-
-      {/* Wordmark */}
-      <text x="130" y="80" textAnchor="middle" fontFamily="Georgia, serif" fontSize="11" fill="#2A2419" opacity="0.7" letterSpacing="1">SoundBloom Sounds</text>
-
-      {/* Big S inside thick circle */}
-      <circle cx="130" cy="185" r="66" fill="none" stroke="#2A2419" strokeWidth="4" />
-      <text
-        x="130" y="212"
-        textAnchor="middle"
-        fontFamily="Georgia, serif"
-        fontSize="88"
-        fontWeight="700"
-        fill="#2A2419"
-      >S</text>
-
-      {/* S is for Sun label */}
-      <text x="130" y="278" textAnchor="middle" fontFamily="sans-serif" fontSize="14" fill="#2A2419" opacity="0.8">S is for Sun</text>
-
-      {/* Play button + sound wave bars */}
-      <g transform="translate(68, 305)">
-        {/* Ochre play circle */}
-        <circle cx="22" cy="22" r="22" fill="#C89B5D" />
-        <polygon points="16,13 34,22 16,31" fill="white" />
-
-        {/* Sound wave bars */}
-        <rect
-          x="56" y="14" width="7" height="16" rx="3.5"
-          fill="#2A2419"
-          style={{ opacity: 0.5 }}
-        />
-        <rect
-          x="67" y="10" width="7" height="24" rx="3.5"
-          fill="#2A2419"
-          style={{ opacity: 0.5 }}
-        />
-        <rect
-          x="78" y="16" width="7" height="12" rx="3.5"
-          fill="#2A2419"
-          style={{ opacity: 0.5 }}
-        />
-      </g>
-
-      {/* Prev/next chevrons */}
-      <text x="36" y="385" fontFamily="sans-serif" fontSize="16" fill="#2A2419" opacity="0.35">&#x2039; R</text>
-      <text x="186" y="385" fontFamily="sans-serif" fontSize="16" fill="#2A2419" opacity="0.35">T &#x203a;</text>
-
-      {/* Footer URL */}
-      <text x="130" y="420" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.45">sounds.soundbloom.co/s</text>
-
-      {/* Home indicator */}
-      <rect x="95" y="490" width="70" height="4" rx="2" fill="#2A2419" opacity="0.3" />
+      <PhoneFrame x={2} y={2} width={256}>
+        {(() => {
+          const b = phoneScreenBounds(2, 2, 256);
+          return (
+            <AppSoundScreen
+              screenX={b.screenX}
+              screenY={b.screenY}
+              screenWidth={b.screenWidth}
+            />
+          );
+        })()}
+      </PhoneFrame>
     </svg>
   );
 }
@@ -135,28 +87,9 @@ export default function HowItWorks() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.9, ease }}
           >
-            {/* Tap-me label + clickable QR overlay */}
+            {/* Clickable QR overlay */}
             <div className="relative inline-block">
-              <motion.div
-                className="absolute"
-                style={{
-                  bottom: "calc(30px + 8px + 36px)",
-                  right: "16px",
-                  fontFamily: "var(--font-hand)",
-                  color: "var(--color-ochre)",
-                  fontSize: "20px",
-                  transform: "rotate(-6deg)",
-                  pointerEvents: "none",
-                  zIndex: 20,
-                  whiteSpace: "nowrap",
-                  lineHeight: 1,
-                }}
-                animate={{ opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              >
-                tap me →
-              </motion.div>
-              <BookPageMock size={400} letter="S" word="Sun" illustration="sun" />
+              <BookPageMock size={400} letter="S" word="snake" illustrationSrc="/illustrations/01-s-snake.png" />
               {/* Clickable overlay over the QR region (bottom-right of 200×200 viewbox scaled to 400px) */}
               <div
                 onClick={handleQRClick}
@@ -173,7 +106,7 @@ export default function HowItWorks() {
                   transition: "box-shadow 0.2s ease",
                 }}
                 role="button"
-                aria-label="Tap to scan the QR code"
+                aria-label="Scan the QR code"
               />
             </div>
           </motion.div>

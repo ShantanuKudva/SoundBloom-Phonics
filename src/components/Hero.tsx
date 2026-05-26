@@ -1,37 +1,22 @@
 "use client";
 
 import { motion } from "motion/react";
-import BookPageMock from "./svg/BookPageMock";
+import BookCoverMock from "./svg/BookCoverMock";
+import { books } from "../lib/books";
 
 function BookIllustration() {
+  const book1 = books[0]; // Book 1
   return (
-    <svg
-      viewBox="0 0 520 290"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full max-w-[520px]"
-      aria-label="Open phonics book showing the letter S with a sun illustration"
+    <div
+      className="relative"
+      style={{
+        filter: "drop-shadow(0 12px 28px rgba(42,36,25,0.18))",
+      }}
     >
-      {/* Book shadow */}
-      <ellipse cx="260" cy="278" rx="220" ry="8" fill="#2A2419" opacity="0.08" />
-
-      {/* Left page — faded blank page, square, matching right-page dimensions */}
-      <g transform="rotate(-2, 130, 140)">
-        <rect x="10" y="20" width="240" height="240" rx="3" fill="#F4E6C8" stroke="#2A2419" strokeWidth="2" />
-        {[55, 75, 95, 115, 135, 155, 175, 195, 215].map((y, i) => (
-          <line key={i} x1="22" y1={y} x2="238" y2={y} stroke="#2A2419" strokeWidth="0.6" opacity="0.08" />
-        ))}
-        <text x="22" y="68" fontFamily="Georgia, serif" fontSize="44" fontWeight="700" fill="#2A2419" opacity="0.2">R</text>
-      </g>
-
-      {/* Right page — BookPageMock at matching 240×240 */}
-      <g transform="rotate(2, 380, 140) translate(270, 20)">
-        <BookPageMock size={240} letter="S" word="Sun" illustration="sun" />
-      </g>
-
-      {/* Book spine */}
-      <rect x="250" y="10" width="20" height="260" rx="2" fill="#C89B5D" stroke="#2A2419" strokeWidth="1.5" />
-      <line x1="260" y1="10" x2="260" y2="270" stroke="#2A2419" strokeWidth="0.5" opacity="0.5" />
-    </svg>
+      <div style={{ transform: "rotate(-3deg)" }}>
+        <BookCoverMock size={320} book={book1} />
+      </div>
+    </div>
   );
 }
 
@@ -99,7 +84,7 @@ export default function Hero() {
               letterSpacing: "0.04em",
             }}
           >
-            Book 1 — Letters A to Z · Launching 2026
+            Book 1 — Letter Sounds · Groups 1–7 · Launching 2026
           </div>
 
           {/* H1 */}

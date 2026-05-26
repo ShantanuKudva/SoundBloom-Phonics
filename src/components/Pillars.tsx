@@ -48,6 +48,23 @@ function IconBookSpines() {
   );
 }
 
+function IconHeartHand() {
+  return (
+    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      {/* Hand — open palm */}
+      <path
+        d="M14 44 C14 44 10 38 10 30 C10 26 13 24 16 26 L16 20 C16 17 19 16 21 18 L21 17 C21 14 24 13 26 15 L26 16 C26 14 29 13 31 15 L31 34 C33 31 37 31 38 34 L38 40 C38 46 34 52 28 52 L22 52 C18 52 14 48 14 44Z"
+        stroke="#2A2419" strokeWidth="3" fill="none" strokeLinejoin="round"
+      />
+      {/* Heart floating above the hand */}
+      <path
+        d="M32 14 C32 11 34 8 37 8 C40 8 42 11 42 14 C42 19 37 24 32 27 C27 24 22 19 22 14 C22 11 24 8 27 8 C30 8 32 11 32 14Z"
+        stroke="#2A2419" strokeWidth="3" fill="none" strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 const pillars = [
   {
     Icon: IconPaperLeaf,
@@ -66,6 +83,12 @@ const pillars = [
     label: "A series, not a one-off",
     title: "A series, not a one-off",
     body: "Four books that carry each other. Letter sounds. First words. Sound pairs. Sight words. Each one a step further, with the same language and the same calm.",
+  },
+  {
+    Icon: IconHeartHand,
+    label: "Neurodiverse-first, not retrofitted",
+    title: "Neurodiverse-first, not retrofitted",
+    body: "Cream paper, never white. One thing per page. No red marks for wrong answers — wrong isn't a category here. The child controls every sound. Optional everything. A book that works whether the child speaks back or not.",
   },
 ];
 
@@ -105,7 +128,7 @@ export default function Pillars() {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {pillars.map((pillar, i) => (
             <motion.div
               key={pillar.label}

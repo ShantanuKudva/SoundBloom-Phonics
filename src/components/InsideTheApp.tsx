@@ -1,11 +1,10 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import PhoneFrame from "./svg/PhoneFrame";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-
-const LETTERS = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
-const HEARD_COUNT = 5;
 
 function CheckIcon() {
   return (
@@ -24,128 +23,530 @@ function CrossIcon() {
   );
 }
 
-function AppPhoneMockup() {
-  const cols = 4;
-  const chipR = 14;
-  const chipSpacing = 38;
-  const gridStartX = 26;
-  const gridStartY = 120;
+// SATIPN = Group 1 sounds — first 6 the child will meet
+const GROUP1_SOUNDS = ["S", "A", "T", "I", "P", "N"] as const;
 
+// ─────────────────────────────────────────────
+// Screen 1 — Home
+// ─────────────────────────────────────────────
+function ScreenHome() {
   return (
-    <svg
-      viewBox="0 0 280 560"
-      xmlns="http://www.w3.org/2000/svg"
-      className="w-full max-w-[280px]"
-      aria-label="SoundBloom Sounds app home screen showing letter progress grid"
-    >
-      {/* Phone shell */}
-      <rect x="2" y="2" width="276" height="556" rx="36" fill="#2A2419" stroke="#2A2419" strokeWidth="2" />
-      <rect x="8" y="8" width="264" height="544" rx="30" fill="#1a1612" />
-      <rect x="14" y="14" width="252" height="532" rx="26" fill="#FDF6EC" />
+    <>
+      {/* ══════════════════════════════════════════════════
+          1. GREETING BAR  (y = 44–80)
+      ══════════════════════════════════════════════════ */}
 
-      {/* Notch */}
-      <rect x="100" y="20" width="80" height="18" rx="9" fill="#2A2419" />
+      {/* Avatar circle */}
+      <circle cx="42" cy="62" r="14" fill="#F0946A" stroke="#2A2419" strokeWidth="1.5" />
+      {/* Eyes */}
+      <circle cx="38" cy="60" r="1.2" fill="#2A2419" />
+      <circle cx="46" cy="60" r="1.2" fill="#2A2419" />
+      {/* Smile — breathing animation */}
+      <motion.g
+        animate={{ scaleY: [1, 0.8, 1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: "42px 64px" }}
+      >
+        <path d="M38,64 Q42,67 46,64" fill="none" stroke="#2A2419" strokeWidth="1.2" strokeLinecap="round" />
+      </motion.g>
 
-      {/* Status bar */}
-      <text x="28" y="54" fontFamily="sans-serif" fontSize="11" fill="#2A2419" opacity="0.5">9:41</text>
+      {/* Greeting text */}
+      <text x="66" y="58" fontFamily="sans-serif" fontSize="9" fill="#2A2419" opacity="0.55">Good morning,</text>
+      <text x="66" y="72" fontFamily="var(--font-display), Georgia, serif" fontSize="14" fontStyle="italic" fill="#2A2419">Leo</text>
 
-      {/* Wordmark */}
-      <text x="140" y="80" textAnchor="middle" fontFamily="Georgia, serif" fontSize="12" fill="#2A2419" opacity="0.75" letterSpacing="0.5">SoundBloom Sounds</text>
+      {/* Streak badge */}
+      <rect x="198" y="54" width="56" height="20" rx="10" fill="rgba(232,120,90,0.15)" stroke="#E6785A" strokeWidth="1.2" />
+      <text x="226" y="68" textAnchor="middle" fontFamily="sans-serif" fontSize="9" fontWeight="700" fill="#A04420">&#9733; 3 days</text>
 
-      {/* Child name line */}
-      <line x1="40" y1="90" x2="240" y2="90" stroke="#2A2419" strokeWidth="0.5" opacity="0.2" />
-      <text x="140" y="108" textAnchor="middle" fontFamily="Caveat, cursive" fontSize="16" fill="#C89B5D">for Leo</text>
+      {/* ══════════════════════════════════════════════════
+          2. DIVIDER LINE  (y = 92)
+      ══════════════════════════════════════════════════ */}
+      <line x1="18" y1="92" x2="262" y2="92" stroke="#2A2419" strokeWidth="0.5" opacity="0.08" />
 
-      {/* Letter grid — 4 cols × 7 rows = 28 cells (26 letters + 2 empty) */}
-      {LETTERS.map((letter, i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const cx = gridStartX + chipR + col * chipSpacing;
-        const cy = gridStartY + chipR + row * chipSpacing;
-        const heard = i < HEARD_COUNT;
+      {/* ══════════════════════════════════════════════════
+          3. TODAY'S SOUND CARD  (y = 104–284)
+      ══════════════════════════════════════════════════ */}
+
+      {/* Outer card */}
+      <rect x="30" y="104" width="220" height="180" rx="18" fill="rgba(214,234,250,0.55)" stroke="#5BA8E0" strokeWidth="1.5" />
+
+      {/* Eyebrow "TODAY" */}
+      <text x="46" y="124" fontFamily="sans-serif" fontSize="9" fontWeight="600" letterSpacing="0.1em" fill="#1A5F8A">TODAY</text>
+
+      {/* Big letter "S" */}
+      <text x="140" y="210" textAnchor="middle" fontFamily="var(--font-sans), sans-serif" fontSize="80" fontWeight="700" fill="#1A5F8A">S</text>
+
+      {/* Play hint text */}
+      <text x="140" y="240" textAnchor="middle" fontFamily="sans-serif" fontSize="9" fill="#1A5F8A" opacity="0.65" letterSpacing="0.05em">Tap to hear /s/</text>
+
+      {/* Play triangle */}
+      <polygon points="133,250 152,260 133,270" fill="#5BA8E0" stroke="#1A5F8A" strokeWidth="1.2" />
+
+      {/* ══════════════════════════════════════════════════
+          4. SOUNDS YOU'VE MET STRIP  (y = 304–344)
+      ══════════════════════════════════════════════════ */}
+
+      {/* Eyebrow */}
+      <text x="30" y="312" fontFamily="sans-serif" fontSize="8" letterSpacing="0.12em" opacity="0.55" fill="#2A2419">SOUNDS YOU&apos;VE MET</text>
+
+      {/* 6 letter pills — SATIPN, first 5 heard (filled), 6th (N) outlined */}
+      {GROUP1_SOUNDS.map((letter, i) => {
+        const cx = 42 + i * 38;
+        const cy = 330;
+        const heard = i < 5;
         return (
           <g key={letter}>
             <circle
-              cx={cx} cy={cy} r={chipR}
+              cx={cx} cy={cy} r="12"
               fill={heard ? "#C89B5D" : "none"}
-              stroke="#2A2419"
-              strokeWidth={heard ? 0 : 1.5}
-              opacity={heard ? 1 : 0.5}
+              stroke={heard ? "none" : "#2A2419"}
+              strokeWidth={heard ? 0 : 1.2}
+              opacity={heard ? 1 : 0.4}
             />
             <text
-              x={cx} y={cy + 5}
+              x={cx} y={cy + 4}
               textAnchor="middle"
-              fontFamily="Georgia, serif"
-              fontSize="14"
+              fontFamily="sans-serif"
+              fontSize="11"
               fontWeight="700"
               fill={heard ? "white" : "#2A2419"}
-              opacity={heard ? 1 : 0.6}
+              opacity={heard ? 1 : 0.4}
             >
               {letter}
             </text>
-            {heard && (
-              <polyline
-                points={`${cx - 5},${cy - 4} ${cx - 1},${cy} ${cx + 6},${cy - 7}`}
-                fill="none"
-                stroke="white"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                opacity="0.9"
-              />
-            )}
           </g>
         );
       })}
-      {/* Two empty placeholder chips */}
-      {[26, 27].map((i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-        const cx = gridStartX + chipR + col * chipSpacing;
-        const cy = gridStartY + chipR + row * chipSpacing;
+
+      {/* ══════════════════════════════════════════════════
+          5. MEDALS SHOWCASE  (y = 362–420)
+      ══════════════════════════════════════════════════ */}
+
+      {/* Eyebrow */}
+      <text x="30" y="370" fontFamily="sans-serif" fontSize="8" letterSpacing="0.12em" opacity="0.55" fill="#2A2419">MEDALS EARNED</text>
+
+      {/* Seed Medal — gold */}
+      <circle cx="60" cy="394" r="14" fill="#C89B5D" stroke="#2A2419" strokeWidth="1.5" />
+      <text x="60" y="398" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fontWeight="700" fill="white">S</text>
+
+      {/* Star Medal — sky blue */}
+      <circle cx="110" cy="394" r="14" fill="#5BA8E0" stroke="#2A2419" strokeWidth="1.5" />
+      <text x="110" y="398" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fontWeight="700" fill="white">&#9733;</text>
+
+      {/* Streak Medal — orange */}
+      <circle cx="160" cy="394" r="14" fill="#E68A5B" stroke="#2A2419" strokeWidth="1.5" />
+      <text x="160" y="398" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fontWeight="700" fill="white">3</text>
+
+      {/* Caption */}
+      <text x="30" y="420" fontFamily="sans-serif" fontSize="8" fill="#2A2419" opacity="0.55">3 medals · keep going</text>
+
+      {/* ══════════════════════════════════════════════════
+          6. SLOWER-VOICE TOGGLE  (y = 448–470)
+      ══════════════════════════════════════════════════ */}
+
+      {/* Pill outline */}
+      <rect x="110" y="448" width="40" height="18" rx="9" fill="none" stroke="#2A2419" strokeWidth="1.5" opacity="0.4" />
+      {/* Toggle circle — left/off */}
+      <circle cx="120" cy="457" r="6" fill="#2A2419" opacity="0.25" />
+      {/* Label */}
+      <text x="156" y="461" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.55">slower voice</text>
+
+      {/* ══════════════════════════════════════════════════
+          7. FOOTER TEXT  (y = 496)
+      ══════════════════════════════════════════════════ */}
+      <text x="140" y="496" textAnchor="middle" fontFamily="sans-serif" fontSize="8" fill="#2A2419" opacity="0.4">stored on this device · no ads · no account</text>
+    </>
+  );
+}
+
+// ─────────────────────────────────────────────
+// Screen 2 — Lesson (/s/ articulation)
+// ─────────────────────────────────────────────
+function ScreenLesson() {
+  const steps = ["Hear", "See", "Trace", "Find", "Blend", "Cel."];
+  return (
+    <g transform="translate(0, 10)">
+      {/* Eyebrow */}
+      <text x="140" y="48" textAnchor="middle" fontFamily="sans-serif" fontSize="9" letterSpacing="0.15em" fill="#2A2419" opacity="0.5">LESSON · STEP 2 OF 6</text>
+
+      {/* Title */}
+      <text x="140" y="78" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="26" fontStyle="italic" fill="#2A2419">Watch &amp; listen</text>
+
+      {/* Step progress pills */}
+      {steps.map((label, i) => {
+        const cx = 42 + i * 39.2;
+        const cy = 108;
+        const isDone = i < 2;
+        const isCurrent = i === 2;
+        const isFuture = i >= 3;
+        // Connector line before each step (except the first)
+        const connectorStart = 42 + (i - 1) * 39.2;
         return (
-          <circle key={i} cx={cx} cy={cy} r={chipR} fill="none" stroke="#2A2419" strokeWidth="1" opacity="0.15" />
+          <g key={label}>
+            {i > 0 && (
+              <line
+                x1={connectorStart + (isDone || i === 2 ? 5 : 5)}
+                y1={cy}
+                x2={cx - (isCurrent ? 6 : 5)}
+                y2={cy}
+                stroke={i <= 2 ? "#5C7C5E" : "#2A2419"}
+                strokeWidth="1"
+                opacity={i <= 2 ? 1 : 0.2}
+              />
+            )}
+            {isDone && (
+              <circle cx={cx} cy={cy} r={5} fill="#5C7C5E" />
+            )}
+            {isCurrent && (
+              <circle cx={cx} cy={cy} r={6} fill="none" stroke="#5C7C5E" strokeWidth="1.8" />
+            )}
+            {isFuture && (
+              <circle cx={cx} cy={cy} r={5} fill="none" stroke="#2A2419" strokeWidth="1" opacity="0.3" />
+            )}
+            <text
+              x={cx} y={cy + 17}
+              textAnchor="middle"
+              fontFamily="sans-serif"
+              fontSize="7"
+              fill="#2A2419"
+              opacity={isCurrent ? 1 : 0.5}
+            >
+              {label}
+            </text>
+          </g>
         );
       })}
 
-      {/* Progress text */}
-      <text x="140" y="390" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.6">5 of 26 sounds heard</text>
+      {/* Big circular face — head outline */}
+      <circle cx="140" cy="240" r="68" fill="rgba(214,234,250,0.4)" stroke="#2A2419" strokeWidth="2" />
 
-      {/* Slower voice toggle */}
-      <g transform="translate(50, 408)">
-        {/* Pill outline */}
-        <rect x="0" y="0" width="36" height="18" rx="9" fill="none" stroke="#2A2419" strokeWidth="1.5" opacity="0.4" />
-        {/* Toggle circle — left position (off) */}
-        <circle cx="10" cy="9" r="6" fill="#2A2419" opacity="0.25" />
-        <text x="44" y="13" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.55">slower voice</text>
+      {/* Eyes (calm closed-eye arcs) */}
+      <path d="M118 222 Q124 228 130 222" stroke="#2A2419" strokeWidth="2" strokeLinecap="round" fill="none" />
+      <path d="M150 222 Q156 228 162 222" stroke="#2A2419" strokeWidth="2" strokeLinecap="round" fill="none" />
+
+      {/* Cheeks */}
+      <circle cx="108" cy="252" r="4" fill="#E68A5B" opacity="0.35" />
+      <circle cx="172" cy="252" r="4" fill="#E68A5B" opacity="0.35" />
+
+      {/* ── Mouth — animated for /s/ articulation ── */}
+      <motion.g
+        animate={{ scaleX: [1, 1.05, 1] }}
+        transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+        style={{ transformOrigin: "140px 264px" }}
+      >
+        {/* Mouth interior — warm dark tone */}
+        <path
+          d="M 108 264 Q 124 252 140 254 Q 156 252 172 264 Q 156 280 140 280 Q 124 280 108 264 Z"
+          fill="#6B2B26"
+          stroke="#2A2419"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+
+        {/* Teeth strip — visible between lips for /s/ */}
+        <rect x="116" y="260" width="48" height="6" rx="0.8" fill="#FDF6EC" stroke="#2A2419" strokeWidth="0.6" />
+        {/* Subtle tooth dividers */}
+        <line x1="128" y1="260" x2="128" y2="266" stroke="#2A2419" strokeWidth="0.4" opacity="0.45" />
+        <line x1="140" y1="260" x2="140" y2="266" stroke="#2A2419" strokeWidth="0.4" opacity="0.45" />
+        <line x1="152" y1="260" x2="152" y2="266" stroke="#2A2419" strokeWidth="0.4" opacity="0.45" />
+
+        {/* Tongue hint — sits at bottom of mouth */}
+        <ellipse cx="140" cy="273" rx="14" ry="3" fill="#E68A5B" opacity="0.7" />
+
+        {/* Upper lip — pink curve, with subtle cupid's bow at center */}
+        <path
+          d="M 108 264 Q 122 254 132 256 Q 136 252 140 253 Q 144 252 148 256 Q 158 254 172 264"
+          stroke="#C8584A"
+          strokeWidth="2.6"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Lower lip — fuller curve */}
+        <path
+          d="M 108 264 Q 124 280 140 280 Q 156 280 172 264"
+          stroke="#C8584A"
+          strokeWidth="2.6"
+          fill="none"
+          strokeLinecap="round"
+        />
+      </motion.g>
+
+      {/* Animated "Sss" wisps emanating to the right of mouth */}
+      {[0, 0.5, 1.0].map((delay, i) => (
+        <motion.text
+          key={`wisp-${i}`}
+          x="172" y="266"
+          fontFamily="var(--font-display), Georgia, serif"
+          fontSize="11"
+          fontStyle="italic"
+          fill="#5BA8E0"
+          animate={{ opacity: [0, 0.9, 0], x: [172, 192, 220] }}
+          transition={{ duration: 1.8, delay, repeat: Infinity, ease: "easeOut" }}
+        >
+          s
+        </motion.text>
+      ))}
+
+      {/* Caption */}
+      <text x="140" y="345" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="22" fontStyle="italic" fill="#2A2419">&ldquo;Sss...&rdquo;</text>
+
+      {/* Helper line */}
+      <text x="140" y="368" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.6">say it with me — three slow breaths</text>
+
+      {/* Replay button */}
+      <g transform="translate(120, 400)">
+        <circle cx="20" cy="20" r="20" fill="#C89B5D" stroke="#2A2419" strokeWidth="1.5" />
+        {/* Curved arrow */}
+        <path d="M 12 20 A 8 8 0 1 1 20 28" stroke="white" strokeWidth="2.2" fill="none" strokeLinecap="round" />
+        <polygon points="18,28 22,28 20,32" fill="white" />
       </g>
 
-      {/* Footer */}
-      <text x="140" y="510" textAnchor="middle" fontFamily="sans-serif" fontSize="9" fill="#2A2419" opacity="0.4">stored on this device only</text>
-      <text x="140" y="522" textAnchor="middle" fontFamily="sans-serif" fontSize="9" fill="#2A2419" opacity="0.4">no account · no ads</text>
+      {/* Bottom hint */}
+      <text x="140" y="475" textAnchor="middle" fontFamily="sans-serif" fontSize="9" fill="#2A2419" opacity="0.5">tap to hear again · slower voice in settings</text>
+    </g>
+  );
+}
 
-      {/* Home indicator */}
-      <rect x="105" y="536" width="70" height="4" rx="2" fill="#2A2419" opacity="0.25" />
-    </svg>
+// ─────────────────────────────────────────────
+// Screen 3 — Medal (celebration)
+// ─────────────────────────────────────────────
+function ScreenMedal() {
+  return (
+    <g transform="translate(0, 10)">
+      {/* Eyebrow */}
+      <text x="140" y="48" textAnchor="middle" fontFamily="sans-serif" fontSize="9" letterSpacing="0.18em" fill="#C89B5D" fontWeight="600">YOU EARNED A MEDAL</text>
+
+      {/* Title */}
+      <text x="140" y="96" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="32" fontStyle="italic" fill="#2A2419">Well done, Leo.</text>
+
+      {/* Medal with scale-in entrance and orbiting sparkles */}
+      <motion.g
+        initial={{ scale: 0.6, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.7, ease }}
+        style={{ transformOrigin: "140px 240px" }}
+      >
+        {/* Sparkles — 6 small dots arranged around the medal */}
+        {[0, 60, 120, 180, 240, 300].map((angle, i) => {
+          const rad = (angle * Math.PI) / 180;
+          const sx = 140 + Math.cos(rad) * 78;
+          const sy = 240 + Math.sin(rad) * 78;
+          return (
+            <motion.circle
+              key={`sparkle-${i}`}
+              cx={sx} cy={sy} r="3" fill="#C89B5D"
+              animate={{ opacity: [0, 1, 0], scale: [0.6, 1.3, 0.6] }}
+              transition={{ duration: 1.8, delay: i * 0.25, repeat: Infinity, ease: "easeInOut" }}
+            />
+          );
+        })}
+
+        {/* Medal ribbon — two triangular tails */}
+        <polygon points="105,290 95,360 125,330" fill="#E6785A" stroke="#2A2419" strokeWidth="1.5" />
+        <polygon points="175,290 185,360 155,330" fill="#D9624A" stroke="#2A2419" strokeWidth="1.5" />
+
+        {/* Outer medal ring */}
+        <circle cx="140" cy="240" r="56" fill="#C89B5D" stroke="#2A2419" strokeWidth="2.5" />
+        {/* Inner decorative ring */}
+        <circle cx="140" cy="240" r="44" fill="none" stroke="#2A2419" strokeWidth="1" opacity="0.35" />
+        {/* Seed shape — teardrop-ish leaf in the center */}
+        <path d="M 140 215 Q 158 235 140 268 Q 122 235 140 215 Z" fill="#FDF6EC" stroke="#2A2419" strokeWidth="1.5" />
+        <line x1="140" y1="222" x2="140" y2="262" stroke="#2A2419" strokeWidth="1" opacity="0.4" />
+      </motion.g>
+
+      {/* Medal name + reason */}
+      <text x="140" y="395" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="20" fontStyle="italic" fill="#2A2419">Seed Medal</text>
+      <text x="140" y="416" textAnchor="middle" fontFamily="sans-serif" fontSize="10" fill="#2A2419" opacity="0.65">for meeting your first sound</text>
+
+      {/* Hand-written encouragement */}
+      <text x="140" y="450" textAnchor="middle" fontFamily="var(--font-hand)" fontSize="15" fill="#C89B5D">keep blooming</text>
+
+      {/* Continue pill */}
+      <rect x="100" y="470" width="80" height="26" rx="13" fill="none" stroke="#2A2419" strokeWidth="1.4" opacity="0.55" />
+      <text x="140" y="488" textAnchor="middle" fontFamily="sans-serif" fontSize="11" fill="#2A2419" opacity="0.75">Continue</text>
+    </g>
+  );
+}
+
+// ─────────────────────────────────────────────
+// Screen 4 — Progress dashboard
+// ─────────────────────────────────────────────
+function ScreenMetrics() {
+  const letters = ["S", "A", "T", "I", "P", "N"] as const;
+  const barData = [2, 3, 1, 4, 2, 0, 0];
+  return (
+    <g transform="translate(0, 10)">
+      {/* Eyebrow */}
+      <text x="140" y="48" textAnchor="middle" fontFamily="sans-serif" fontSize="9" letterSpacing="0.15em" fill="#2A2419" opacity="0.55">LEO&apos;S PROGRESS</text>
+
+      {/* Title */}
+      <text x="140" y="76" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="26" fontStyle="italic" fill="#2A2419">This week</text>
+
+      {/* Big featured number */}
+      <text x="140" y="148" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="72" fontWeight="700" fill="#5C7C5E">5</text>
+      <text x="140" y="172" textAnchor="middle" fontFamily="sans-serif" fontSize="11" fill="#2A2419" opacity="0.6">sounds met</text>
+
+      {/* Three small stat columns */}
+      <g>
+        {/* Streak */}
+        <text x="68" y="218" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="22" fontStyle="italic" fill="#E6785A">3</text>
+        <text x="68" y="234" textAnchor="middle" fontFamily="sans-serif" fontSize="8" fill="#2A2419" opacity="0.55" letterSpacing="0.05em">day streak</text>
+
+        {/* Minutes */}
+        <text x="140" y="218" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="22" fontStyle="italic" fill="#5BA8E0">12</text>
+        <text x="140" y="234" textAnchor="middle" fontFamily="sans-serif" fontSize="8" fill="#2A2419" opacity="0.55" letterSpacing="0.05em">mins total</text>
+
+        {/* Medals */}
+        <text x="212" y="218" textAnchor="middle" fontFamily="var(--font-display), Georgia, serif" fontSize="22" fontStyle="italic" fill="#C89B5D">3</text>
+        <text x="212" y="234" textAnchor="middle" fontFamily="sans-serif" fontSize="8" fill="#2A2419" opacity="0.55" letterSpacing="0.05em">medals</text>
+      </g>
+
+      {/* Divider */}
+      <line x1="30" y1="260" x2="250" y2="260" stroke="#2A2419" strokeWidth="0.5" opacity="0.1" />
+
+      {/* Sounds met — Group 1 row */}
+      <text x="30" y="280" fontFamily="sans-serif" fontSize="8" letterSpacing="0.12em" fill="#2A2419" opacity="0.55">GROUP 1 · S A T I P N</text>
+
+      {/* 6 letter cards */}
+      {letters.map((letter, i) => {
+        const cx = 42 + i * 38;
+        const heard = i < 5;
+        return (
+          <g key={letter}>
+            <rect x={cx - 13} y={294} width={26} height={32} rx={5}
+              fill={heard ? "#C89B5D" : "none"}
+              stroke={heard ? "none" : "#2A2419"}
+              strokeWidth={heard ? 0 : 1.2}
+              opacity={heard ? 1 : 0.35}
+            />
+            <text x={cx} y={315} textAnchor="middle" fontFamily="sans-serif" fontSize="13" fontWeight="700"
+              fill={heard ? "white" : "#2A2419"} opacity={heard ? 1 : 0.4}>{letter}</text>
+          </g>
+        );
+      })}
+
+      {/* Mini chart label */}
+      <text x="30" y="360" fontFamily="sans-serif" fontSize="8" letterSpacing="0.12em" fill="#2A2419" opacity="0.55">DAILY MINS · LAST 7 DAYS</text>
+
+      {/* Bar chart — 7 bars */}
+      {barData.map((mins, i) => {
+        const x = 44 + i * 30;
+        const barH = mins * 8 + (mins > 0 ? 2 : 1);
+        const baseY = 422;
+        return (
+          <g key={`bar-${i}`}>
+            <rect x={x - 7} y={baseY - barH} width={14} height={barH} rx={2}
+              fill="#5C7C5E" opacity={mins > 0 ? 0.7 : 0.18} />
+            <text x={x} y={438} textAnchor="middle" fontFamily="sans-serif" fontSize="7" fill="#2A2419" opacity="0.55">{"MTWTFSS"[i]}</text>
+          </g>
+        );
+      })}
+
+      {/* Footer / privacy note */}
+      <text x="140" y="478" textAnchor="middle" fontFamily="sans-serif" fontStyle="italic" fontSize="9" fill="#2A2419" opacity="0.5">stored on this device · no account · no sharing</text>
+    </g>
+  );
+}
+
+// ─────────────────────────────────────────────
+// Slideshow phone mockup
+// ─────────────────────────────────────────────
+const SLIDE_LABELS = ["Home", "Lesson", "Medal", "Progress"] as const;
+
+function AppPhoneMockup() {
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setSlide((s) => (s + 1) % 4), 5000);
+    return () => clearInterval(id);
+  }, [slide]); // restart timer when user manually jumps
+
+  const screens = [<ScreenHome key="home" />, <ScreenLesson key="lesson" />, <ScreenMedal key="medal" />, <ScreenMetrics key="metrics" />];
+
+  return (
+    <div className="flex flex-col items-center">
+      <svg
+        viewBox="0 0 280 560"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full max-w-70"
+        aria-label="SoundBloom Sounds app screens"
+      >
+        <PhoneFrame x={6} y={2} width={268}>
+          <AnimatePresence mode="wait">
+            <motion.g
+              key={slide}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, ease }}
+            >
+              {screens[slide]}
+            </motion.g>
+          </AnimatePresence>
+        </PhoneFrame>
+      </svg>
+
+      {/* Dot indicators */}
+      <div className="mt-6 flex items-center gap-2" role="tablist" aria-label="App screens">
+        {SLIDE_LABELS.map((label, i) => (
+          <button
+            key={label}
+            onClick={() => setSlide(i)}
+            role="tab"
+            aria-selected={slide === i}
+            aria-label={label}
+            style={{
+              width: slide === i ? 22 : 6,
+              height: 6,
+              borderRadius: 3,
+              backgroundColor: slide === i ? "var(--color-ink)" : "rgba(42,36,25,0.2)",
+              transition: "width 0.35s cubic-bezier(0.22,1,0.36,1), background-color 0.3s",
+              cursor: "pointer",
+              border: "none",
+              padding: 0,
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Slide label */}
+      <p
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: 12,
+          color: "var(--color-ink)",
+          opacity: 0.55,
+          marginTop: 8,
+          fontStyle: "italic",
+        }}
+      >
+        {SLIDE_LABELS[slide]}
+      </p>
+    </div>
   );
 }
 
 const doesItems = [
-  "Plays one sound per screen, exactly when you ask.",
-  "Remembers what your child has heard — stored on the device, never sent.",
-  "Lets you set your child's name (shown on screen, stored locally).",
-  "Has a \"slower voice\" toggle for new learners.",
-  "Works offline once you've opened it once.",
-  "Free, forever — every feature, every book.",
+  "Plays sounds from a QR scan — warm voice, three repetitions, optional slower speed.",
+  "Runs short calm modules: Hear → See → Trace → Find → Blend → Celebrate, ~5–8 minutes.",
+  "Awards medals — Seed, Star, Bloom, Streak, Gold, Diamond, Quiet, Together. Never taken away.",
+  "Lets up to 4 child profiles share one device — no account needed.",
+  "Adapts pacing gently — notices which sounds your child engages with most.",
+  "Weekly summary + downloadable progress PDF, useful for IEP documentation.",
+  "Works offline once a sound has been opened. Free, forever — every feature, every book.",
 ];
 
 const doesntItems = [
-  "Send any data anywhere. No analytics, no trackers, no cookies.",
-  "Need an account, login, or email address.",
+  "Send data without explicit opt-in. Cloud sync is opt-in only.",
+  "Require an account, login, or email to start.",
   "Show ads, recommendations, or \"up next\" suggestions.",
-  "Have premium features, in-app purchases, or paywalls.",
-  "Require an install — it's just a web link.",
-  "Auto-play to the next thing — your child finishes when they finish.",
+  "Have premium tiers, in-app purchases, or paywalls.",
+  "Autoplay between sounds — your child finishes when they finish.",
+  "Show leaderboards or compare children to anyone else.",
+  "Use red marks or \"wrong\" indicators — no failure states for the child.",
+  "Make sounds without consent — every audio event requires a tap.",
 ];
 
 export default function InsideTheApp() {
@@ -179,7 +580,7 @@ export default function InsideTheApp() {
               fontVariationSettings: "'opsz' 72, 'SOFT' 100",
             }}
           >
-            Inside SoundBloom Sounds.
+            Inside the SoundBloom app.
           </h2>
           <p
             className="text-base md:text-lg leading-relaxed max-w-2xl"
@@ -190,7 +591,7 @@ export default function InsideTheApp() {
               opacity: 0.7,
             }}
           >
-            A tiny web app. No install. No account. No data leaves the device. Every feature, every book, free — no exceptions, no premium tier.
+            A companion to the books — never a replacement. Plays sounds from a QR scan, runs short calm modules, awards medals that can&apos;t be taken away, and tracks progress on the device. No account, no ads, no data sent anywhere unless you explicitly turn on sync.
           </p>
         </motion.div>
 
@@ -291,7 +692,7 @@ export default function InsideTheApp() {
               fontVariationSettings: "'opsz' 24",
             }}
           >
-            {"It's a small app. That's the point."}
+            {"As much as the child needs. Never more than that."}
           </p>
           <p
             className="text-base"
@@ -301,6 +702,32 @@ export default function InsideTheApp() {
             }}
           >
             every feature, every book — free, no exceptions, no premium tier
+          </p>
+        </motion.div>
+
+        <motion.div
+          className="mt-16 max-w-xl mx-auto text-center"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, ease }}
+        >
+          <p
+            className="text-xs font-semibold uppercase tracking-widest mb-3"
+            style={{ color: "var(--color-ochre)", fontFamily: "var(--font-sans)" }}
+          >
+            What&apos;s next
+          </p>
+          <p
+            className="text-base leading-relaxed"
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontStyle: "italic",
+              color: "var(--color-ink)",
+              opacity: 0.65,
+            }}
+          >
+            Opt-in cloud sync across devices. Classroom mode for teachers, with anonymised group views. Tamil and Hindi editions in the same calm design system.
           </p>
         </motion.div>
       </div>

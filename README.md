@@ -23,9 +23,13 @@ SoundBloom starts from the child:
 ```
 .
 ├── README.md                       # You are here
-├── SoundBloom_Technicalities.md    # The full technical reference: KDP specs,
-│                                   #   design rules, royalty math, video pipeline,
-│                                   #   launch checklist, differentiators, pitfalls
+├── CLAUDE.md                       # Claude Code routing policy (loads AGENTS.md)
+├── AGENTS.md                       # Codebase-agnostic rules (Next.js 16 — read docs first)
+├── PLAN.md                         # Live implementation tracker
+├── docs/
+│   ├── design.md                   # Product design doc — the canonical brief
+│   └── technicalities.md           # Technical reference: KDP specs, royalty math,
+│                                   #   video pipeline, launch checklist, pitfalls
 ├── src/                            # Next.js 16 marketing/concept site source
 ├── public/                         #   ↳ static assets
 ├── next.config.ts                  #   ↳ configured for static export to GitHub Pages
@@ -33,7 +37,7 @@ SoundBloom starts from the child:
 └── .github/workflows/deploy.yml    # Auto-deploys to GitHub Pages on push to main
 ```
 
-`SoundBloom_Technicalities.md` is the canonical product plan. The Next.js app at the repo root is the public-facing marketing site — it does not collect any data.
+[`docs/design.md`](docs/design.md) is the canonical product brief — physical book spec, multi-sensory approach, app feature spec, reward system, neurodiverse-first rules. [`docs/technicalities.md`](docs/technicalities.md) is the technical reference (KDP, QR codes, royalty math, launch checklist). The Next.js app at the repo root is the public-facing marketing site — it does not collect any data.
 
 ---
 

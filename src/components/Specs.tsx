@@ -5,12 +5,12 @@ import { motion } from "motion/react";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const stats = [
-  { value: "58",      label: "pages, Book 1" },
+  { value: "58",           label: "pages, Book 1" },
   { value: "8.5″ × 8.5″", label: "square trim — premium feel" },
-  { value: "26",      label: "sound entries" },
-  { value: "30 sec",  label: "average sound clip" },
-  { value: "3",       label: "colours per page, never more" },
-  { value: "0",       label: "ads, ever" },
+  { value: "7",            label: "phonics groups, each its own colour" },
+  { value: "26",           label: "sound entries (Jolly Phonics order)" },
+  { value: "4 pt",         label: "minimum outline weight" },
+  { value: "0",            label: "ads, ever" },
 ];
 
 export default function Specs() {
@@ -49,7 +49,7 @@ export default function Specs() {
         </motion.div>
 
         {/* Stat strip */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
